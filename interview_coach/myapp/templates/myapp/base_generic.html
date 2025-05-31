@@ -1,0 +1,36 @@
+<!-- myapp/templates/base_generic.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Interview Coach</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Welcome to AI Interview Coach</h1>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'upload_resume' %}">Upload Resume</a></li>
+                <li><a href="{% url 'start_interview' %}">Start</a></li>
+                
+            </ul>
+        </nav>
+
+        {% block content %}
+        <!-- Content will be injected here from child templates -->
+        {% endblock %}
+    </div>
+
+    <footer>
+        <p>&copy; 2025 AI Interview Coach</p>
+    </footer>
+</body>
+</html>

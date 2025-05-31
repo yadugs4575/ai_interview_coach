@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Mock Interview | {{ job_role }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --primary-light: #93c5fd;
+            --secondary: #4f46e5;
+            --accent: #6366f1;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --darker: #0f172a;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #c5def7;
+            background-image: 
+                radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.1) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .interview-container {
+            display: flex;
+            max-width: 1200px;
+            margin: 40px auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            min-height: 80vh;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: var(--darker);
+            color: white;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            position: relative;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            color: var(--primary-light);
+        }
+
+        .interview-info {
+            margin-bottom: 30px;
+        }
+
+        .interview-role {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        .interview-type {
+            font-size: 14px;
+            color: var(--primary-light);
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            margin: 30px 0;
+        }
+
+        .progress-title {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: var(--light-gray);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 3px;
+            transition: width 0.4s ease;
+        }
+
+        .skills-container {
+            margin-top: auto;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+            color: var(--primary-light);
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .interview-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .timer {
+            background: var(--light);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+        }
+
+        .timer i {
+            margin-right: 8px;
+            color: var(--gray);
+        }
+
+        .question-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--light-gray);
+            margin-bottom: 30px;
+        }
+
+        .question-number {
+            font-size: 14px;
+            color: var(--gray);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .question-number i {
+            margin-right: 8px;
+        }
+
+        .question-text {
+            font-size: 20px;
+            font-weight: 500;
+            color: var(--dark);
+            line-height: 1.5;
+        }
+
+        .answer-container {
+            margin-top: 20px;
+        }
+
+        .answer-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--dark);
+        }
+
+        textarea {
+            width: 100%;
+            height: 180px;
+            padding: 16px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid var(--light-gray);
+            resize: none;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--light);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #0d9488;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background-color: var(--light-gray);
+            color: var(--gray);
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .record-btn {
+            width: 100%;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .record-btn.recording::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.02); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 0.5; }
+        }
+
+        .status-indicator {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(3px);
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-icon {
+            font-size: 48px;
+            color: var(--danger);
+            margin-bottom: 15px;
+        }
+
+        .modal-title {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .modal-body {
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .interview-container {
+                flex-direction: column;
+                margin: 20px;
+            }
+            
+            .sidebar {
+                width: 100%;
+                padding: 20px;
+            }
+            
+            .skills-container {
+                margin-top: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 25px;
+            }
+            
+            .question-text {
+                font-size: 18px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .navigation-buttons {
+                flex-direction: column-reverse;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .interview-container {
+                margin: 10px;
+                border-radius: 12px;
+            }
+            
+            .main-content, .sidebar {
+                padding: 20px;
+            }
+            
+            .question-container {
+                padding: 20px;
+            }
+            
+            .question-text {
+                font-size: 16px;
+            }
+            
+            textarea {
+                height: 150px;
+            }
+        }
+
+        /* Animation for question transitions */
+        .question-enter {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .question-enter-active {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.3s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="interview-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="logo">
+                <i class="fas fa-comment-dots"></i>
+                <span>AI Interview Coach</span>
+            </div>
+            
+            <div class="interview-info">
+                <div class="interview-role">{{ job_role }}</div>
+                <div class="interview-type">Technical Mock Interview</div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-title">
+                    <span>Interview Progress</span>
+                    <span>{{ question_index|add:1 }}/{{ total_questions }}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: {{ progress_percentage }}%"></div>
+                </div>
+            </div>
+            
+            <div class="skills-container">
+                <div class="section-title">
+                    <i class="fas fa-tags"></i>
+                    <span>Skills Evaluated</span>
+                </div>
+                <div class="skills-list">
+                    {% if skills %}
+                        {% for skill in skills %}
+                            <div class="skill-tag">{{ skill }}</div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="skill-tag">No skills specified</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="main-content">
+            {% if not questions_exist %}
+                <div class="interview-header">
+                    <h2>Start Your Interview</h2>
+                </div>
+                
+                <div class="question-container">
+                    <p>We'll generate interview questions based on the job role and required skills.</p>
+                    
+                    <form method="POST" autocomplete="off" style="margin-top: 30px;">
+                        {% csrf_token %}
+                        <button type="submit" name="generate" class="btn btn-primary" aria-label="Generate Questions">
+                            <i class="fas fa-bolt"></i> Generate Questions
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="interview-header">
+                    <h2>Question {{ question_index|add:1 }}</h2>
+                   
+                </div>
+                
+                <div class="question-container">
+                    <div class="question-number">
+                        <i class="far fa-question-circle"></i>
+                        Question {{ question_index|add:1 }} of {{ total_questions }}
+                    </div>
+                    <div class="question-text">{{ current_question }}</div>
+                </div>
+                
+                <form method="POST" id="interview-form">
+                    {% csrf_token %}
+                    <div class="answer-container">
+                        <label class="answer-label">Your Response:</label>
+                        <textarea name="answer" id="answer-text" placeholder="Type your answer here..."></textarea>
+                        
+                        <button type="button" id="record-btn" class="btn btn-secondary record-btn">
+                            <i class="fas fa-microphone"></i> Start Recording
+                        </button>
+                        <div class="status-indicator" id="status">Press the button to record your answer</div>
+                    </div>
+                    
+                    <div class="navigation-buttons">
+                        <div class="action-buttons">
+                            {% if question_index > 0 %}
+                                <button type="submit" name="previous" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left"></i> Previous
+                                </button>
+                            {% endif %}
+                            
+                            <button type="button" id="restart-btn" class="btn btn-danger">
+                                <i class="fas fa-redo"></i> Restart
+                            </button>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            {% if question_index < total_questions|add:-1 %}
+                                <button type="submit" name="skip" class="btn btn-warning">
+                                    <i class="fas fa-forward"></i> Skip
+                                </button>
+                                <button type="submit" name="next" class="btn btn-primary">
+                                    <i class="fas fa-arrow-right"></i> Next
+                                </button>
+                            {% else %}
+                                <button type="submit" name="finish" class="btn btn-success">
+                                    <i class="fas fa-check-circle"></i> Finish Interview
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </form>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div class="modal" id="confirmation-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <h3 class="modal-title">Restart Interview?</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to restart the interview? All your progress and answers will be permanently deleted.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancel-restart">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-danger" id="confirm-restart">
+                    <i class="fas fa-redo"></i> Restart
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize answers object to store all responses
+        let answers = JSON.parse(localStorage.getItem("interview_answers")) || {};
+        const currentQuestionIndex = {{ question_index }};
+        const answerTextarea = document.getElementById("answer-text");
+        const recordBtn = document.getElementById("record-btn");
+        const statusText = document.getElementById("status");
+        const restartBtn = document.getElementById("restart-btn");
+        const interviewForm = document.getElementById("interview-form");
+        const confirmationModal = document.getElementById("confirmation-modal");
+        const confirmRestartBtn = document.getElementById("confirm-restart");
+        const cancelRestartBtn = document.getElementById("cancel-restart");
+        const timerElement = document.getElementById("interview-timer");
+
+        // Timer functionality
+        let startTime = Date.now();
+        let timerInterval = setInterval(updateTimer, 1000);
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            timerElement.textContent = `${minutes}:${seconds}`;
+        }
+
+        // Load saved answer if exists
+        if (answers[currentQuestionIndex]) {
+            answerTextarea.value = answers[currentQuestionIndex];
+        }
+
+        // Save answer when navigating between questions
+        interviewForm.addEventListener("submit", function(e) {
+            if (!document.querySelector('input[name="restart"]')) {
+                answers[currentQuestionIndex] = answerTextarea.value;
+                localStorage.setItem("interview_answers", JSON.stringify(answers));
+            }
+        });
+
+        // Restart button handler
+        restartBtn.addEventListener("click", function(e) {
+            e.preventDefault();
+            confirmationModal.style.display = "flex";
+        });
+
+        // Confirm restart
+        confirmRestartBtn.addEventListener("click", function() {
+            clearInterval(timerInterval);
+            localStorage.removeItem("interview_answers");
+            
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'restart';
+            input.value = 'true';
+            interviewForm.appendChild(input);
+            interviewForm.submit();
+        });
+
+        // Cancel restart
+        cancelRestartBtn.addEventListener("click", function() {
+            confirmationModal.style.display = "none";
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener("click", function(event) {
+            if (event.target === confirmationModal) {
+                confirmationModal.style.display = "none";
+            }
+        });
+
+        // Speech recognition functionality
+        if ("webkitSpeechRecognition" in window) {
+            const recognition = new webkitSpeechRecognition();
+            recognition.continuous = true;
+            recognition.interimResults = true;
+            recognition.lang = "en-US";
+
+            let isRecording = false;
+            let finalTranscript = "";
+
+            recordBtn.addEventListener("click", function() {
+                if (isRecording) {
+                    recognition.stop();
+                    isRecording = false;
+                    recordBtn.classList.remove("recording");
+                    recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Recording';
+                    statusText.textContent = "Recording saved. You can edit the text above.";
+                } else {
+                    finalTranscript = answerTextarea.value;
+                    recognition.start();
+                    isRecording = true;
+                    recordBtn.classList.add("recording");
+                    recordBtn.innerHTML = '<i class="fas fa-stop-circle"></i> Stop Recording';
+                    statusText.textContent = "Listening... Speak now.";
+                }
+            });
+
+            recognition.onresult = function(event) {
+                let interimTranscript = "";
+
+                for (let i = event.resultIndex; i < event.results.length; i++) {
+                    const transcript = event.results[i][0].transcript;
+                    if (event.results[i].isFinal) {
+                        finalTranscript += transcript + " ";
+                    } else {
+                        interimTranscript += transcript;
+                    }
+                }
+
+                answerTextarea.value = finalTranscript + interimTranscript;
+            };
+
+            recognition.onerror = function(event) {
+                console.error("Speech recognition error", event.error);
+                statusText.textContent = "Error: " + event.error;
+                isRecording = false;
+                recordBtn.classList.remove("recording");
+                recordBtn.innerHTML = '<i class="fas fa-microphone"></i> Start Recording';
+            };
+
+            recognition.onend = function() {
+                if (isRecording) {
+                    recognition.start();
+                }
+            };
+        } else {
+            recordBtn.disabled = true;
+            statusText.textContent = "Speech recognition not supported in your browser. Try Chrome or Edge.";
+        }
+
+        // Add smooth scroll to question on change
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    </script>
+</body>
+</html>

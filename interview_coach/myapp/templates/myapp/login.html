@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login - AI Interview Coach</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <style>
+    body {
+      background: url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .login-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 2.5rem;
+      border-radius: 15px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .login-box h2 {
+      font-weight: 700;
+      color: #343a40;
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-control {
+      border-radius: 12px;
+      padding: 0.75rem 1rem;
+    }
+
+    .form-control:focus {
+      box-shadow: 0 0 5px rgba(78, 115, 223, 0.5);
+      border-color: #4e73df;
+    }
+
+    .btn-primary {
+      background-color: #4e73df;
+      border-color: #4e73df;
+      padding: 0.75rem;
+      font-size: 1.1rem;
+      border-radius: 12px;
+      transition: transform 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.03);
+    }
+
+    .back-link {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .back-link a {
+      color: #4e73df;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+
+    .avatar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .avatar img {
+      width: 100px;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .error-message {
+      color: red;
+      font-size: 0.9rem;
+    }
+
+    .registration-success {
+      background: #d4edda;
+      color: #155724;
+      padding: 1rem;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      border: 1px solid #c3e6cb;
+      display: none;
+      text-align: center;
+    }
+
+    .registration-success i {
+      color: #28a745;
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-box">
+    <div class="avatar">
+      <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Avatar" />
+    </div>
+
+    <h2><i class="fas fa-sign-in-alt me-2"></i>Login to AI Interview Coach</h2>
+
+    <div class="registration-success" id="successMessage">
+      <i class="fas fa-check-circle"></i> Account created successfully! Please login.
+    </div>
+
+    <form method="POST" action="{% url 'login' %}" onsubmit="return validateForm()">
+      {% csrf_token %}
+
+      <div class="form-group mb-3">
+        <label for="username"><i class="fas fa-user me-2"></i>Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter username"/>
+        <span id="username-error" class="error-message"></span>
+      </div>
+
+      <div class="form-group mb-3">
+        <label for="password"><i class="fas fa-lock me-2"></i>Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Enter password"/>
+        <span id="password-error" class="error-message"></span>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100" id="submit-btn" disabled>Login</button>
+    </form>
+
+    <div class="back-link mt-3">
+      <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+    </div>
+
+    <div class="text-center mt-2">
+      <a href="{% url 'home' %}" class="btn btn-outline-secondary w-100 mt-2"><i class="fas fa-home me-2"></i>Back to Home</a>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Real-time Validation JS -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('registered')) {
+        document.getElementById('successMessage').style.display = 'block';
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+
+      const username = document.getElementById("username");
+      const password = document.getElementById("password");
+      const submitBtn = document.getElementById("submit-btn");
+
+      username.addEventListener("input", validateInput);
+      password.addEventListener("input", validateInput);
+
+      function validateInput() {
+        const usernameValue = username.value.trim();
+        const passwordValue = password.value.trim();
+        let isValid = true;
+
+        if (usernameValue.length < 3) {
+          document.getElementById("username-error").innerText = "Username must be at least 3 characters";
+          isValid = false;
+        } else {
+          document.getElementById("username-error").innerText = "";
+        }
+
+        if (passwordValue.length < 6) {
+          document.getElementById("password-error").innerText = "Password must be at least 6 characters";
+          isValid = false;
+        } else {
+          document.getElementById("password-error").innerText = "";
+        }
+
+        submitBtn.disabled = !isValid;
+      }
+    });
+
+    function validateForm() {
+      const usernameValue = document.getElementById("username").value.trim();
+      const passwordValue = document.getElementById("password").value.trim();
+
+      if (!usernameValue || !passwordValue) {
+        alert("Please fill in all fields.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</body>
+</html>
